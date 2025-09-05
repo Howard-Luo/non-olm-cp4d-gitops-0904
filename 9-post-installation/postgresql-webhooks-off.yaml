@@ -33,9 +33,9 @@ kind: Job
 metadata:
   name: patch-pg-webhooks-off
   namespace: openshift-gitops
-  annotations:
-    argocd.argoproj.io/hook: PostSync
-    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+  # annotations:
+  #   argocd.argoproj.io/hook: PostSync
+  #   argocd.argoproj.io/hook-delete-policy: HookSucceeded
 spec:
   template:
     spec:
@@ -49,7 +49,7 @@ spec:
           - |
             set -euo pipefail
             echo "sleeping 1800s..."
-            sleep 1800
+            sleep 180
             kubectl -n openshift-gitops patch application postgresql-cluster-gitops \
               --type merge \
               -p '{"spec":{"source":{"helm":{"valuesObject":{"webhook":{"mutating":{"create":false},"validating":{"create":false}}}}}}}'
